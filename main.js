@@ -1,0 +1,71 @@
+
+const elctron = require('electron');
+const url = require('url');
+const path = require('path');
+const { app, BrowserWindow, Menu } = elctron;
+
+//set nav
+//process.env.NODE_ENV = 'production';
+
+let mainWindow;
+
+// main window listen for app to be ready
+
+app.on('ready', function () {
+    //create new window
+    mainWindow = new BrowserWindow({});
+    //load html file into this
+    mainWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'index.html'),
+        protocol: 'file:',
+        slashes: true
+        // what the code up top is doing "file://dirname/index.html"
+    }));
+    // build menu form template
+    const mainMenu = Menu.buildFromTemplate(mainMenuTemplate)
+    // insert menu
+    Menu.setApplicationMenu(mainMenu);
+});
+
+
+
+// Create menu template
+const mainMenuTemplate = [
+    {
+        label: 'File',
+        submenu: [
+            {
+                label: 'Quit',
+                accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
+                click() {
+                    app.quit();
+                }
+            }
+        ]
+    }
+];
+
+
+
+// if mac add empty object to menu.
+if (process.platform == 'darwin') {
+    mainMenuTemplate.unshift({});
+}
+
+// add dev tools item if not in production
+if (process.env.NODE_ENV !== 'production') {
+    mainMenuTemplate.push({
+        label: 'Developer Tools',
+        submenu: [{
+            label: 'Toggle DevTools',
+            accelerator: process.platform == 'darwin' ? 'Command+I' : 'Ctrl+I',
+            click(item, focusedWindow) {
+                focusedWindow.toggleDevTools();
+            }
+        },
+        {
+            role: 'reload'
+        }
+        ]
+    });
+}

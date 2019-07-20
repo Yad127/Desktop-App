@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC&display=swap" rel="stylesheet">
+    <title>Weather</title>
+</head>
+
+<body onload="showTime()">
+    <nav class="container fixed-top">
+        <a class="weatherwidget-io" href="https://forecast7.com/en/39d96n83d00/columbus/?unit=us" data-label_1="Columbus" data-font="Verdana" data-icons="Climacons Animated" data-days="5" data-theme="white_leather" >Columbus</a>
+        <script>
+        !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src='https://weatherwidget.io/js/widget.min.js';fjs.parentNode.insertBefore(js,fjs);}}(document,'script','weatherwidget-io-js');
+        </script>
+    </nav>
+    <time id="time" class="font"></time>
+
+    <h1>
+        <span id="greeting" class="font"></span>
+        <span id="name" class="font">Yad</span>
+    </h1>
+
+    <h2 class="font">What is your focus today</h2>
+    <h2 class="font">Do Something Amazing Today!</h2>
+
+    <script>
+        const Time = document.getElementById('time');
+        const Greeting = document.getElementById('greeting');
+        const Name = document.getElementById('name');
+
+        //setInerval(showTime,1000);
+        showBackground();
+        function showTime() {
+            let today = new Date();
+            let hour = today.getHours();
+            let min = today.getMinutes();
+            let sec = today.getSeconds();
+
+            let display = changeHour(hour) + ':' + addZero(min) + ':' + addZero(sec) + ' ' + amPm();
+            Time.innerHTML = display;
+
+            setTimeout(showTime, 1000);
+        }
+
+        function addZero(number) {
+            if (number < 10) {
+                return '0' + number;
+            }
+            else {
+                return number;
+            }
+        }
+
+        function changeHour(number) {
+            if (number > 12) {
+                return number - 12;
+            }
+            else if (number < 1) {
+                return number + 12;
+            }
+            else {
+                return number;
+            }
+        }
+
+        function amPm() {
+            let today = new Date();
+            let hour = today.getHours();
+            let n = hour + 11;
+
+            if (hour < 12) {
+                let am = 'am';
+                return am;
+            }
+            else if (hour => 12) {
+                let pm = 'pm'
+                return pm;
+            }
+        }
+
+        function showBackground() {
+            let today = new Date();
+            let hour = today.getHours();
+
+
+            if (hour < 12) {
+                Greeting.textContent = "Good Morning";
+                document.body.style.background = "url('img/morning.jpg') no-repeat center fixed";
+            }
+            else if (hour < 18) {
+                Greeting.textContent = "Good Afternoon";
+                document.body.style.background = "url('img/afternoon.jpg') no-repeat center fixed";
+            }
+            else {
+                Greeting.textContent = "Good Evening";
+                document.body.style.background = "url('img/night.jpg') no-repeat center fixed";
+                document.body.style.color = "white";
+            }
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
